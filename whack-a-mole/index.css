@@ -1,0 +1,186 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-color: #fff;
+}
+
+#game {
+  display: none;
+  width: 600px;
+  margin: 0 auto;
+}
+
+.score-box {
+  text-align: center;
+  height: 40px;
+  line-height: 40px;
+  color: #333;
+}
+
+.holes {
+  width: 100%;
+  height: 600px;
+  cursor: url('./image/hammer.ico'), auto;
+}
+
+.holes::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.hole {
+  position: relative;
+  float: left;
+  width: 170px;
+  height: 170px;
+  background-image: url('./image/hole.png');
+  background-size: cover;
+}
+
+.hole div {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.hole .mouse {
+  background-image: url('./image/mouse.png');
+  }
+
+.hole .boom {
+  z-index: 1;
+  background-image: url('./image/boom.png');;
+}
+
+#select .option {
+  display: flex;
+  flex-flow: column;
+  position: absolute;
+  align-items: stretch;
+  left: calc(50% - 20vw);
+  top: 20%;
+  width: 40vw;
+  height: 50vh;
+  text-align: center;
+}
+
+#select .title {
+  width: 100vw;
+  margin-top: 12vh;
+  font-size: 20px;
+  color: #365266;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+button {
+  font-family: cursive;
+  font-size: 20px;
+  outline: none;
+  border: 1px solid rgb(26, 143, 238);
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  line-height: 20px;
+  margin: 15px 0;
+  background-color: rgba(220, 198, 82, 0.5);
+  color: #000;
+  cursor: pointer;
+  font-size: 30px;
+}
+@media all and (max-width: 768px) {
+  #game {
+    display: none;
+    width: 100vw;
+    margin: 0 auto;
+    background-color: #fff;
+  }
+
+  #game .score-box {
+    text-align: center;
+    height: 20px;
+    line-height: 20px;
+    color: #333;
+  }
+
+  #game .holes {
+    width: 100%;
+    height: calc(100vh - 20px);
+    cursor: url('./image/hammer.ico'), auto;
+  }
+
+  #game .holes::after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+
+  #game .hole {
+    position: relative;
+    float: left;
+    width: 33vw;
+    height: 33vw;
+    background-image: url('./image/hole.png');
+    background-size: 100% 100%;
+  }
+
+  #game .hole div {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+
+  .hole .mouse {
+    background-image: url('./image/mouse.png');
+    background-size: 50% 50%;
+  }
+
+  .hole .boom {
+    z-index: 1;
+    background-image: url('./image/boom.png');
+    ;
+  }
+
+  #select .option {
+    display: flex;
+    flex-flow: column;
+    position: absolute;
+    align-items: stretch;
+    left: calc(50% - 20vw);
+    top: 20%;
+    width: 40vw;
+    height: 40vh;
+    text-align: center;
+  }
+
+  #select .title {
+    width: 100vw;
+    margin-top: 12vh;
+    font-size: 20px;
+    color: #365266;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  button {
+    font-family: cursive;
+    font-size: 20px;
+    outline: none;
+    border: 1px solid rgb(26, 143, 238);
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    line-height: 20px;
+    margin: 15px 0;
+    background-color: rgba(220, 198, 82, 0.5);
+    color: #000;
+  }
+}

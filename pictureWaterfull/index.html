@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>瀑布流</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+        
+        body {
+            background-color: #eee;
+        }
+        
+        .wrapper {
+            width: 980px;
+            margin: 0 auto;
+            border: 1px solid #000;
+            overflow: hidden;
+        }
+        
+        .wrapper li {
+            width: 25%;
+            float: left;
+        }
+        
+        .item {
+            margin: 10px;
+            padding: 10px;
+            background-color: #fff;
+        }
+        
+        img {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <ul class="wrapper">
+        <li class="col">
+            <div class="item">
+                <img src="./image/0.png" alt="">
+                <p>第一张图片</p>
+            </div>
+        </li>
+        <li class="col">
+            <div class="item">
+                <img src="./image/1.jpg" alt="">
+                <p>第一张图片</p>
+            </div>
+        </li>
+        <li class="col">
+            <div class="item">
+                <img src="./image/2.jpg" alt="">
+                <p>第一张图片</p>
+            </div>
+        </li>
+        <li class="col">
+            <div class="item">
+                <img src="./image/3.jpg" alt="">
+                <p>第一张图片</p>
+            </div>
+        </li>
+    </ul>
+    <script src="./ajax.js"></script>
+    <script>
+        var lock = true;
+
+        function getData() {
+            if (!lock) {
+                return false;
+            }
+            lock = false;
+            ajax('GET', './data.json', '', renderDom, true);
+        }
+        var oLi = document.getElementsByClassName('col');
+
+        function renderDom(data) {
+            lock = true;
+            var imgWidth = oLi[0].offsetWidth - 20 - 20;
+            for (let i = 0; i < data.length; i++) {
+                var itemDiv = document.createElement('div');
+                itemDiv.className = 'item';
+                var oImg = new Image();
+                oImg.src = data[i].img;
+                oImg.height = imgWidth * data[i].height / data[i].width;
+                itemDiv.appendChild(oImg);
+                var oP = document.createElement('p');
+                oP.innerText = data[i].desc;
+                itemDiv.appendChild(oP);
+                var minIndex = getMinLi().minIndex;
+                oLi[minIndex].appendChild(itemDiv);
+            }
+        }
+
+        function getMinLi() {
+            var minIndex = 0;
+            var minHeight = oLi[0].offsetHeight;
+            for (let i = 0; i < oLi.length; i++) {
+                if (oLi[i].offsetHeight < minHeight) {
+                    minHeight = oLi[i].offsetHeight;
+                    minIndex = i;
+                }
+            }
+            return {
+                minHeight: minHeight,
+                minIndex: minIndex
+            }
+        }
+
+        getData();
+        var timer = null;
+        window.onscroll = function() {
+            var scrollTop = document.documentElement.scrollTop;
+            var clientHight = document.documentElement.clientHeight;
+            var minHeight = getMinLi().minHeight;
+            if (scrollTop + clientHight > minHeight) {
+                timer = setTimeout(() => {
+                    getData();
+                }, 500);
+            }
+        }
+    </script>
+</body>
+
+</html>
