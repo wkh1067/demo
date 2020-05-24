@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        canvas {
+            background: #000;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="snow"></canvas>
+    <script>
+        const canvas = document.getElementById('snow');
+        const context = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        function Snow(x, y, scale, rotate, speedX, speedY, speedR) {
+            this.x = x;
+            this.y = y;
+            this.scale = scale;
+            this.rotate = rotate;
+            this.speedX = speedX;
+            this.speedY = speedY;
+            this.speedR = speedR;
+        }
+        Snow.prototype.render = function () {
+            context.save();
+            context.beginPath();
+            context.translate(this.x, this.y);
+
+            context.scale(this.scale, this.scale);
+            context.rotate(this.rotate * Math.PI / 180);
+
+            context.moveTo(-20, 0);
+            context.lineTo(20, 0);
+            context.strokeStyle = '#fff';
+            context.lineWidth = 10;
+            context.lineCap = 'round';
+
+            var r = 20;
+
+            var disX = Math.sin(30 * Math.PI / 180) * r;
+            var disY = Math.sin(60 * Math.PI / 180) * r;
+
+            context.moveTo(-disX, disY);
+            context.lineTo(disX, -disY);
+
+            context.moveTo(-disX, -disY);
+            context.lineTo(disX, disY);
+
+            context.stroke();
+            context.restore();
+        }
+		
+        //生成雪花
+        let snowArray = [];
+        function init() {
+            const len = 100;
+
+            for (let i = 0; i < len; i++) {
+                var x = Math.random() * canvas.width;
+                let scale = Math.random() + 0.5;	
+                let rotate = Math.random() * 60;
+                let speedX = Math.random() + 1;		
+                let speedY = Math.random() + 5;
+                let speedR = Math.random() * 4 + 2;
+
+                (function (x, y, scale, rotate, speedX, speedY, speedR) {
+                    setTimeout(function () {
+                        var snow = new Snow(x, y, scale, rotate, speedX, speedY, speedR);
+                        snow.render();
+
+                        snowArray.push(snow);
+
+                    }, Math.random() * 8000);
+                })(x, 0, scale, rotate, speedX, speedY, speedR);
+            }
+
+            snowing();
+        }
+        init();
+
+
+        function snowing() {
+            setInterval(function () {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                for (let i = 0; i < snowArray.length; i++) {
+                    snowArray[i].x = (snowArray[i].x + snowArray[i].speedX) % canvas.width;
+                    snowArray[i].y = (snowArray[i].y + snowArray[i].speedY) % canvas.height;
+                    snowArray[i].rotate = (snowArray[i].rotate + snowArray[i].speedR) % 60;
+                    snowArray[i].render();
+                }
+            }, 30);
+        }
+    </script>
+</body>
+<html>
